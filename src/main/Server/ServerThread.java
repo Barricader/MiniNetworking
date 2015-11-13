@@ -7,6 +7,10 @@ import java.io.DataOutputStream;
 import java.io.IOException;
 import java.net.Socket;
 
+/**
+ * Server thread base class
+ * @author JoJones
+ */
 public class ServerThread extends Thread {
 	private Server server = null;
 	private Socket sock = null;
@@ -21,27 +25,34 @@ public class ServerThread extends Thread {
 		ID = this.sock.getPort();
 	}
 	
+	/**
+	 * Send input to server
+	 * @param msg - String to input
+	 * @throws IOException
+	 */
 	public void send(String msg) throws IOException {
 		streamOut.writeUTF(msg);
 		streamOut.flush();
 	}
 	
-	public int getID() {
-		return ID;
-	}
-	
+	/**
+	 * Loop of each thread
+	 */
 	public void run() {
 		System.out.println("Server thread " + ID + " running...");
 		while (true) {
 			try {
+				// Checks for input
 				server.handle(ID, streamIn.readUTF());
 			} catch (IOException e) {
 				try {
+					// If something bad happens with input, remove client
 					server.remove(ID);
 				} catch (IOException | InterruptedException e2) {
 					e2.printStackTrace();
 				}
 				try {
+					// Also, delete this thread
 					join();
 				} catch (InterruptedException e1) {
 					e1.printStackTrace();
@@ -52,11 +63,19 @@ public class ServerThread extends Thread {
 		}
 	}
 	
+	/**
+	 * Create streams for the socket/thread
+	 * @throws IOException
+	 */
 	public void open() throws IOException {
 		streamIn = new DataInputStream(new BufferedInputStream(sock.getInputStream()));
 		streamOut = new DataOutputStream(new BufferedOutputStream(sock.getOutputStream()));
 	}
 	
+	/**
+	 * Close the thread and streams
+	 * @throws IOException
+	 */
 	public void close() throws IOException {
 		if (sock != null) {
 			sock.close();
@@ -67,5 +86,9 @@ public class ServerThread extends Thread {
 		if (streamOut != null) {
 			streamOut.close();
 		}
+	}
+	
+	public int getID() {
+		return ID;
 	}
 }
