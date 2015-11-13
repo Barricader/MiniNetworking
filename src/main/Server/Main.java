@@ -1,7 +1,10 @@
 package Main.Server;
 
+import java.io.IOException;
+
 import Main.Server.Window.NewFrame;
 
+// PORT: 64837
 public class Main implements Runnable {
 	private Server server;
 	private NewFrame window;
@@ -9,7 +12,11 @@ public class Main implements Runnable {
 	private Thread t;
 
 	public Main() {
-		server = new Server();
+		try {
+			server = new Server();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 		window = new NewFrame();
 		t = new Thread(this);
 		t.start();
@@ -24,6 +31,12 @@ public class Main implements Runnable {
 
 	public void run() {
 		while (running) {
+			try {
+				server.addThread(server.getServerSock().accept());
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			
 			
 		}
 		
