@@ -69,7 +69,7 @@ public class Server implements Runnable {
 	}
 	
 	/**
-	 * Handles input from client
+	 * Handles input from client and sends it to other clients
 	 * @param ID - ID of client
 	 * @param input - String of text that they want to input
 	 * @throws IOException
@@ -80,6 +80,9 @@ public class Server implements Runnable {
 		if (input.equals("bye")) {
 			clients[findClient(ID)].send("bye");
 			remove(ID);
+		}
+		else if (input.equals("!TestCommand")) {
+			// Do test thing here, such as move graphic
 		}
 		else {
 			for (int i = 0; i < clientCount; i++) {
