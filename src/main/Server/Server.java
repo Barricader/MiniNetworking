@@ -1,4 +1,4 @@
-package Main.Server;
+package main.server;
 
 import java.io.IOException;
 import java.net.ServerSocket;
@@ -81,8 +81,28 @@ public class Server implements Runnable {
 			clients[findClient(ID)].send("bye");
 			remove(ID);
 		}
+		// Move commands | REMOVE TEMP STUFF WHEN GRAPHIC IS USED
+		else if (input.contains("!move")) {
+			clients[findClient(ID)].send("Moving something");
+			if (input.contains("up")) {
+				clients[findClient(ID)].send("Moving up");
+				// Reference graphic to move it up
+			}
+			else if (input.contains("right")) {
+				clients[findClient(ID)].send("Moving right");
+				// Reference graphic to move it right
+			}
+			else if (input.contains("down")) {
+				clients[findClient(ID)].send("Moving down");
+				// Reference graphic to move it down
+			}
+			else if (input.contains("left")) {
+				clients[findClient(ID)].send("Moving left");
+				// Reference graphic to move it left
+			}
+		}
 		else if (input.equals("!TestCommand")) {
-			// Do test thing here, such as move graphic
+			// Do test thing here, such as change graphic color
 		}
 		else {
 			for (int i = 0; i < clientCount; i++) {
