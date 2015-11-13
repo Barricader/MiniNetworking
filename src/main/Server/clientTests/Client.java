@@ -1,4 +1,4 @@
-package Main.Server.clientTests;
+package main.server.clientTests;
 
 
 import java.applet.Applet;
