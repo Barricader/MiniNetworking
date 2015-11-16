@@ -1,4 +1,4 @@
-package Main.Server;
+package main.server;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
